@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "org.sonarqube" version "4.4.1.3373"
 }
 
 repositories {
@@ -24,4 +25,11 @@ task texttest(type: JavaExec) {
     main = "com.gildedrose.TexttestFixture"
     classpath = sourceSets.test.runtimeClasspath
     args "30"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "gilded-rose"
+        property "sonar.projectName", "gilded-rose"
+    }
 }

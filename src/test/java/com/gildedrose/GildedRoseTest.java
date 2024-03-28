@@ -28,7 +28,7 @@ class GildedRoseTest {
 
     @Test
     void quality_of_item_is_never_negative() {
-        Item[] items = new Item[]{new Item("Bread", 5, 0)};
+        Item[] items = new Item[]{new Item("Milk 1L", 5, 0)};
         GildedRose app = new GildedRose(items);
 
         app.updateQuality();
@@ -109,9 +109,40 @@ class GildedRoseTest {
 
         app.updateQuality();
 
-        assertEquals(-1, app.items[0].sellIn); //TODO this is correct?
+        assertEquals(-1, app.items[0].sellIn);
         assertEquals(0, app.items[0].quality);
     }
 
+    @Test
+    void if_sellin_date_is_negative_quality_drops_by_2() {
+        Item[] items = new Item[]{new Item("Aged Cheese", 0, 24)};
+        GildedRose app = new GildedRose(items);
 
+        app.updateQuality();
+
+        assertEquals(-1, app.items[0].sellIn);
+        assertEquals(22, app.items[0].quality);
+    }
+
+    @Test
+    void with_multiple_items() {
+        Item[] items = new Item[]{
+            new Item("Aged Cheese", 4, 24),
+            new Item("Nuts", 205, 12),
+            new Item("Eggs", 5, 33),
+            new Item("Pie", 10, 6)
+        };
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(3, app.items[0].sellIn);
+        assertEquals(23, app.items[0].quality);
+        assertEquals(204, app.items[1].sellIn);
+        assertEquals(11, app.items[1].quality);
+        assertEquals(4, app.items[2].sellIn);
+        assertEquals(32, app.items[2].quality);
+        assertEquals(9, app.items[3].sellIn);
+        assertEquals(5, app.items[3].quality);
+    }
 }
