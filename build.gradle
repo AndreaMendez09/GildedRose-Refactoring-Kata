@@ -31,5 +31,9 @@ sonarqube {
     properties {
         property "sonar.projectKey", "gilded-rose"
         property "sonar.projectName", "gilded-rose"
+        property "sonar.sources", "src/main/java"
+        property "sonar.tests", "src/test/java"
+        property "sonar.language", "java"
+        property "sonar.binaries", "build/classes"
     }
 }
