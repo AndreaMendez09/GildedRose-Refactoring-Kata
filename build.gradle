@@ -1,6 +1,23 @@
 plugins {
     id 'java'
-    id "org.sonarqube" version "4.4.1.3373"
+    id 'jacoco'
+    id "application"
+    id("org.sonarqube") version "5.0.0.4638"
+}
+
+
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    dependsOn test
+    reports {
+        xml.required = true
+        html.destination file("${buildDir}/reports/coverage")
+        xml.destination file("${buildDir}/reports/jacoco.xml")
+    }
 }
 
 repositories {
@@ -8,6 +25,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.google.guava:guava:31.1-jre'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
@@ -19,6 +37,7 @@ sourceCompatibility = '1.8'
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 task texttest(type: JavaExec) {
@@ -35,5 +54,7 @@ sonarqube {
         property "sonar.tests", "src/test/java"
         property "sonar.language", "java"
         property "sonar.binaries", "build/classes"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco.xml"
     }
 }
