@@ -145,4 +145,21 @@ class GildedRoseTest {
         assertEquals(9, app.items[3].sellIn);
         assertEquals(5, app.items[3].quality);
     }
+
+    @Test
+    void aged_brie_when_sellin_is_negarive_and_quality_is_lower_than_50_add_2() {
+        Item[] items = new Item[]{new Item("Aged Brie", -2, 45)};
+        GildedRose app = new GildedRose(items);
+
+        app.updateQuality();
+
+        assertEquals(-3, app.items[0].sellIn);
+        assertEquals(47, app.items[0].quality);
+    }
+
+    @Test
+    void test_to_string() {
+        Item items = new Item("Soap", -2, 45);
+        assertEquals("Soap, -2, 45", items.toString());
+    }
 }
